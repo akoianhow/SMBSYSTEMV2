@@ -1,0 +1,15 @@
+/Users/christiandpano/react/SMBSYSTEM/Persistence/bin/Debug/net9.0/Persistence.deps.json
+/Users/christiandpano/react/SMBSYSTEM/Persistence/bin/Debug/net9.0/Persistence.dll
+/Users/christiandpano/react/SMBSYSTEM/Persistence/bin/Debug/net9.0/Persistence.pdb
+/Users/christiandpano/react/SMBSYSTEM/Persistence/bin/Debug/net9.0/Domain.dll
+/Users/christiandpano/react/SMBSYSTEM/Persistence/bin/Debug/net9.0/Domain.pdb
+/Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/Persistence.csproj.AssemblyReference.cache
+/Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/Persistence.GeneratedMSBuildEditorConfig.editorconfig
+/Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/Persistence.AssemblyInfoInputs.cache
+/Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/Persistence.AssemblyInfo.cs
+/Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/Persistence.csproj.CoreCompileInputs.cache
+/Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/Persiste.61C28332.Up2Date
+/Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/Persistence.dll
+/Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/refint/Persistence.dll
+/Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/Persistence.pdb
+/Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/ref/Persistence.dll

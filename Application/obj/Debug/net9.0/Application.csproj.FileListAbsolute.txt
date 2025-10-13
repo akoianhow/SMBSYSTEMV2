@@ -1,0 +1,17 @@
+/Users/christiandpano/react/SMBSYSTEM/Application/bin/Debug/net9.0/Application.deps.json
+/Users/christiandpano/react/SMBSYSTEM/Application/bin/Debug/net9.0/Application.dll
+/Users/christiandpano/react/SMBSYSTEM/Application/bin/Debug/net9.0/Application.pdb
+/Users/christiandpano/react/SMBSYSTEM/Application/bin/Debug/net9.0/Domain.dll
+/Users/christiandpano/react/SMBSYSTEM/Application/bin/Debug/net9.0/Persistence.dll
+/Users/christiandpano/react/SMBSYSTEM/Application/bin/Debug/net9.0/Domain.pdb
+/Users/christiandpano/react/SMBSYSTEM/Application/bin/Debug/net9.0/Persistence.pdb
+/Users/christiandpano/react/SMBSYSTEM/Application/obj/Debug/net9.0/Application.csproj.AssemblyReference.cache
+/Users/christiandpano/react/SMBSYSTEM/Application/obj/Debug/net9.0/Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/christiandpano/react/SMBSYSTEM/Application/obj/Debug/net9.0/Application.AssemblyInfoInputs.cache
+/Users/christiandpano/react/SMBSYSTEM/Application/obj/Debug/net9.0/Application.AssemblyInfo.cs
+/Users/christiandpano/react/SMBSYSTEM/Application/obj/Debug/net9.0/Application.csproj.CoreCompileInputs.cache
+/Users/christiandpano/react/SMBSYSTEM/Application/obj/Debug/net9.0/Applicat.44B5EDA2.Up2Date
+/Users/christiandpano/react/SMBSYSTEM/Application/obj/Debug/net9.0/Application.dll
+/Users/christiandpano/react/SMBSYSTEM/Application/obj/Debug/net9.0/refint/Application.dll
+/Users/christiandpano/react/SMBSYSTEM/Application/obj/Debug/net9.0/Application.pdb
+/Users/christiandpano/react/SMBSYSTEM/Application/obj/Debug/net9.0/ref/Application.dll
