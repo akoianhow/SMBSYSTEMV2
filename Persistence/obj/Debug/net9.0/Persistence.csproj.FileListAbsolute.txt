@@ -13,3 +13,4 @@
 /Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/refint/Persistence.dll
 /Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/Persistence.pdb
 /Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/ref/Persistence.dll
+/Users/christiandpano/react/SMBSYSTEM/Persistence/obj/Debug/net9.0/Persistence.sourcelink.json
