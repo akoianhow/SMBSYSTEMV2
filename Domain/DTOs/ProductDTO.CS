@@ -1,6 +1,6 @@
 public class ProductDTO
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public Int32 Id { get; set; }
     public string Name { get; set; } = "";
     public string Description { get; set; } = "";
     public bool IsActive { get; set; } = true;
@@ -8,9 +8,9 @@ public class ProductDTO
     public decimal Cost { get; set; }
     public decimal SRP { get; set; }
     public int ItemsInStock { get; set; }
-    public string CategoryId { get; set; } = "";
+    public Int32 CategoryId { get; set; }
     public string? CategoryName { get; set; }
-    public string SupplierId { get; set; } = "";
+    public Int32 SupplierId { get; set; }
     public string? SupplierName { get; set; }
 
 }

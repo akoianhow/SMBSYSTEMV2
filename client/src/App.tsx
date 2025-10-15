@@ -16,7 +16,9 @@ function App() {
       <Typography variant="h3">Welcome to SarapMagBike</Typography>
       <List>
         {products.map((product, i) => (
-          <ListItem key={i}>{product.name}</ListItem>
+          <ListItem key={i}>
+            {product.name + " -  " + product.categoryName}
+          </ListItem>
         ))}
       </List>
     </>

@@ -18,8 +18,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Category", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -32,12 +33,12 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Product", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("CategoryId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Cost")
                         .HasColumnType("TEXT");
@@ -62,9 +63,8 @@ namespace Persistence.Migrations
                     b.Property<decimal>("SRP")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SupplierId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -77,8 +77,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Supplier", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()

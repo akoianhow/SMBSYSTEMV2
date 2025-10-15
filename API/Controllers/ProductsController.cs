@@ -1,71 +1,48 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Application.Products.Commands;
+using Application.Products.Queries;
 using Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
 
 namespace API.Controllers
 {
-    public class ProductsController(AppDbContext context) : BaseApiController
+    public class ProductsController() : BaseApiController
     {
         [HttpGet]
         public async Task<ActionResult<List<ProductDTO>>> GetProducts()
         {
-            //TODO: REFACTOR USING AUTOMAPPER.
-            var products = await context.Products
-                .Include(p => p.Category).Include(p => p.Supplier)
-                .Select(p => new ProductDTO
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                    IsActive = p.IsActive,
-                    IsConsigned = p.IsConsigned,
-                    Cost = p.Cost,
-                    SRP = p.SRP,
-                    ItemsInStock = p.ItemsInStock,
-                    CategoryId = p.CategoryId,
-                    CategoryName = p.Category != null ? p.Category.Name : null,
-                    SupplierId = p.SupplierId,
-                    SupplierName = p.Supplier != null ? p.Supplier.Name : null
-                })
-                .ToListAsync();
-
-
-
-            return products;
+            return await Mediator.Send(new GetProductList.Query());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductDTO>> GetProductById(string id)
+        public async Task<ActionResult<ProductDTO>> GetProductById(Int32 id)
         {
-            //TODO: REFACTOR USING AUTOMAPPER.
-            var product = await context.Products
-                .Include(p => p.Category).Include(p => p.Supplier)
-                .Select(p => new ProductDTO
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                    IsActive = p.IsActive,
-                    IsConsigned = p.IsConsigned,
-                    Cost = p.Cost,
-                    SRP = p.SRP,
-                    ItemsInStock = p.ItemsInStock,
-                    CategoryId = p.CategoryId,
-                    CategoryName = p.Category != null ? p.Category.Name : null,
-                    SupplierId = p.SupplierId,
-                    SupplierName = p.Supplier != null ? p.Supplier.Name : null
-                }).FirstOrDefaultAsync(p => p.Id == id);
+            return await Mediator.Send(new GetProductById.Query { Id = id });
+        }
 
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return product;
+        [HttpGet("category/{id}")]
+        public async Task<ActionResult<List<ProductDTO>>> GetProductsByCategoryId(Int32 id)
+        {
+            return await Mediator.Send(new GetProductByCategoryId.Query { CategoryId = id });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<int>> CreateProduct(Product product)
+        {
+            return await Mediator.Send(new CreateProduct.Command { Product = product });
+        }
+        [HttpPut]
+        public async Task<ActionResult> EditProduct(Product product)
+        {
+            await Mediator.Send(new EditProduct.Command { Product = product });
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteActivity(int id)
+        {
+            await Mediator.Send(new DeleteProduct.Command { Id = id });
+            return Ok();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Domain
 {
     public class Category
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public Int32 Id { get; set; }
         public string Name { get; set; } = "";
         public ICollection<Product> Products { get; set; } = [];
     }
