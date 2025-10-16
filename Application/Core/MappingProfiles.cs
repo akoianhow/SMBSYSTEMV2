@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain;
+using Domain.DTOs;
 
 namespace Application.Core
 {
@@ -12,6 +13,7 @@ namespace Application.Core
         public MappingProfiles()
         {
             CreateMap<Product, Product>();
+            CreateMap<Category, CategoryDTO>();
 
             CreateMap<Product, ProductDTO>()
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))

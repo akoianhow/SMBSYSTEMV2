@@ -1,5 +1,5 @@
 type Product = {
-  id: string;
+  id: number;
   name: string;
   description: string;
   isActive: boolean;
@@ -7,8 +7,8 @@ type Product = {
   cost: number;
   srp: number;
   itemsInStock: number;
-  categoryId: string;
+  categoryId: number;
   categoryName: string;
-  supplierId: string;
+  supplierId: number;
   supplierName: string;
 };
