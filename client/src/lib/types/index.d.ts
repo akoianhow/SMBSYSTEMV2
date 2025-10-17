@@ -12,3 +12,9 @@ type Product = {
   supplierId: number;
   supplierName: string;
 };
+
+
+type Category = {
+  id: number;
+  name: string
+}

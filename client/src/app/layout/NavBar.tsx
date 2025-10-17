@@ -10,12 +10,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { NavLink } from "react-router";
+import Component from '../../../node_modules/react-router/dist/development/lib/types/internal.d';
+import MenuItemLink from "../shared/components/MenuItemLink";
 
-type Props = {
-  handleOpenForm: () => void;
-};
-
-export default function NavBar({ handleOpenForm }: Props) {
+export default function NavBar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -25,7 +24,6 @@ export default function NavBar({ handleOpenForm }: Props) {
     setAnchorEl(null);
   };
   const handleCreate = () => {
-    handleOpenForm();
     handleClose();
   };
 
@@ -40,53 +38,27 @@ export default function NavBar({ handleOpenForm }: Props) {
       >
         <Container maxWidth="xl">
           <Toolbar
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
+            sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between",}}>
             <Box>
-              <MenuItem sx={{ display: "flex", gap: 2 }}>
+              <MenuItem component={NavLink} to="/" sx={{ display: "flex", gap: 2 }}>
                 <AddShoppingCart fontSize="large" />
-                <Typography variant="h4" fontWeight="bold">
+                <Typography  variant="h4" fontWeight="bold">
                   SMBS
                 </Typography>
               </MenuItem>
             </Box>
 
             <Box sx={{ display: "flex" }}>
-              <MenuItem
-                sx={{
-                  fontSize: "1.2rem",
-                  textTransform: "uppercase",
-                  fontWeight: "bold",
-                }}
-              >
+              <MenuItemLink to="/">
                 Home
-              </MenuItem>
-
-              <MenuItem
-                sx={{
-                  fontSize: "1.2rem",
-                  textTransform: "uppercase",
-                  fontWeight: "bold",
-                }}
-              >
+              </MenuItemLink>
+              <MenuItemLink to='/products'>
                 Sales
-              </MenuItem>
-
-              <MenuItem
-                sx={{
-                  fontSize: "1.2rem",
-                  textTransform: "uppercase",
-                  fontWeight: "bold",
-                }}
-              >
+              </MenuItemLink>
+              <MenuItem sx={{ fontSize: "1.2rem", textTransform: "uppercase", fontWeight: "bold",}}>
                 Purchases
               </MenuItem>
-              <Button
-                id="basic-button"
+              <Button id="basic-button"
                 aria-controls={open ? "basic-menu" : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
@@ -94,28 +66,20 @@ export default function NavBar({ handleOpenForm }: Props) {
               >
                 INVENTORY
               </Button>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
+              <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}
                 slotProps={{
                   list: {
                     "aria-labelledby": "basic-button",
                   },
                 }}
               >
-                <MenuItem onClick={handleClose}>Search</MenuItem>
-                <MenuItem onClick={handleCreate}>Create Product</MenuItem>
+                <MenuItem onClick={handleClose} component={NavLink} to='/products'>Product List</MenuItem>
+                <MenuItem onClick={handleClose} component={NavLink} to="/createProduct">
+                  Create Product
+                </MenuItem>
                 <MenuItem onClick={handleClose}>Reports</MenuItem>
               </Menu>
-              <MenuItem
-                sx={{
-                  fontSize: "1.2rem",
-                  textTransform: "uppercase",
-                  fontWeight: "bold",
-                }}
-              >
+              <MenuItem sx={{fontSize: "1.2rem", textTransform: "uppercase", fontWeight: "bold",}}>
                 Reports
               </MenuItem>
             </Box>

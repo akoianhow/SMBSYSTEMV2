@@ -1,26 +1,15 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import ProductCard from "./ProductCard";
+import { useProducts } from "../../lib/hooks/useProducts";
 
-type Props = {
-  products: Product[];
-  handleSelectProduct: (id: number) => void;
-  handleDelete: (id: number) => void;
-};
+export default function ProductList() {
+  const { products, isPending } = useProducts();
+  if (!products || isPending) return <Typography>Loading...</Typography>;
 
-export default function ProductList({
-  products,
-  handleSelectProduct,
-  handleDelete,
-}: Props) {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
       {products.map((product, i) => (
-        <ProductCard
-          handleDelete={handleDelete}
-          handleSelectProduct={handleSelectProduct}
-          key={i}
-          product={product}
-        />
+        <ProductCard key={i} product={product} />
       ))}
     </Box>
   );

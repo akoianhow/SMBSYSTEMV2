@@ -7,18 +7,19 @@ import {
   Chip,
   Typography,
 } from "@mui/material";
+import { useProducts } from "../../lib/hooks/useProducts";
+import { Link } from "react-router";
 
 type Props = {
   product: Product;
-  handleSelectProduct: (id: number) => void;
-  handleDelete: (id: number) => void;
 };
 
-export default function ProductCard({
-  product,
-  handleSelectProduct,
-  handleDelete,
-}: Props) {
+export default function ProductCard({ product }: Props) {
+  const { deleteProduct, isPending } = useProducts();
+  const handleDeleteProduct = (id: number) => {
+    deleteProduct.mutateAsync(id);
+  };
+
   return (
     <Card sx={{ borderRadius: 3 }}>
       <CardContent>
@@ -32,20 +33,17 @@ export default function ProductCard({
       >
         <Chip label={product.categoryName} variant="outlined" />
         <Box display="flex" gap={2}>
-          <Button
-            onClick={() => handleSelectProduct(product.id)}
-            size="medium"
-            variant="contained"
-          >
+          <Button component={Link} to={`/products/${product.id}`}  size="medium" variant="contained">
             View
           </Button>
           <Button
-            onClick={() => handleDelete(product.id)}
+            onClick={() => handleDeleteProduct(product.id)}
             size="medium"
             variant="contained"
             color="error"
+            disabled={isPending}
           >
-            Delete
+            {isPending ? "Deleting..." : "Delete"}
           </Button>
         </Box>
       </CardActions>

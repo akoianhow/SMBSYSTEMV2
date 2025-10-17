@@ -6,30 +6,34 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import { Link, useNavigate, useParams } from "react-router";
+import { useProducts } from "../../lib/hooks/useProducts";
 
-type Props = {
-  product: Product;
-  handleSelectCancelProduct: () => void;
-  handleOpenForm: (id?: number) => void;
-};
-export default function ProductDetail({
-  product,
-  handleSelectCancelProduct,
-  handleOpenForm,
-}: Props) {
+
+export default function ProductDetail() {
+  const navigate = useNavigate();
+  const {id} = useParams();
+  const {selectedProduct, isLoading} = useProducts(Number(id));
+
+
+
+  if (isLoading) return <Typography>Loading....</Typography>;
+
+  if(!selectedProduct) return <Typography>Not found..</Typography>
+
   return (
     <Card sx={{ borderRadius: 3 }}>
       <CardMedia component="img" src="sss" />
       <CardContent>
-        <Typography variant="h5">{product.name}</Typography>
-        <Typography variant="subtitle1">{product.categoryName}</Typography>
-        <Typography variant="body1">{product.description}</Typography>
+        <Typography variant="h5">{selectedProduct.name}</Typography>
+        <Typography variant="subtitle1">{selectedProduct.categoryName}</Typography>
+        <Typography variant="body1">{selectedProduct.description}</Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={() => handleOpenForm(product.id)} color="primary">
+        <Button component={Link} to={`/editProduct/${selectedProduct.id}`}color="primary">
           Edit
         </Button>
-        <Button onClick={() => handleSelectCancelProduct()} color="inherit">
+        <Button onClick={() => navigate('/products')} color="inherit">
           Cancel
         </Button>
       </CardActions>
