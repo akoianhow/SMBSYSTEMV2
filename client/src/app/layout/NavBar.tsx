@@ -1,4 +1,5 @@
 import { AddShoppingCart } from "@mui/icons-material";
+import { Observer } from 'mobx-react-lite';
 import {
   AppBar,
   Box,
@@ -11,10 +12,11 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { NavLink } from "react-router";
-import Component from '../../../node_modules/react-router/dist/development/lib/types/internal.d';
 import MenuItemLink from "../shared/components/MenuItemLink";
+import { useStore } from "../../lib/hooks/useStore";
 
 export default function NavBar() {
+  const {cart} = useStore();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -52,8 +54,8 @@ export default function NavBar() {
               <MenuItemLink to="/">
                 Home
               </MenuItemLink>
-              <MenuItemLink to='/products'>
-                Sales
+              <MenuItemLink to='/'>
+                SALES
               </MenuItemLink>
               <MenuItem sx={{ fontSize: "1.2rem", textTransform: "uppercase", fontWeight: "bold",}}>
                 Purchases
@@ -79,13 +81,21 @@ export default function NavBar() {
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Reports</MenuItem>
               </Menu>
-              <MenuItem sx={{fontSize: "1.2rem", textTransform: "uppercase", fontWeight: "bold",}}>
-                Reports
-              </MenuItem>
+
             </Box>
             <Button size="large" variant="contained">
               Login
             </Button>
+            <Observer>
+              {()=> (
+                <>
+                <Box display='flex'>
+                   <AddShoppingCart/>
+                  <Typography> ({cart.cartItems.length}) items</Typography>
+                </Box>
+                </>
+              )}
+            </Observer>
           </Toolbar>
         </Container>
         <Box></Box>

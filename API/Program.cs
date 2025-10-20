@@ -1,12 +1,20 @@
+using API.Middleware;
 using Application.Core;
 using Application.Products.Queries;
+using Application.Products.Validators;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<GetProductList.Handler>());
+builder.Services.AddMediatR(x =>
+{
+    x.RegisterServicesFromAssemblyContaining<GetProductList.Handler>();
+    x.AddOpenBehavior(typeof(ValidationBehavior<,>));
+}
+     );
 builder.Services.AddControllers();
 builder.Services.AddControllers()
     .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
@@ -17,10 +25,13 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 });
 builder.Services.AddCors();
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+builder.Services.AddValidatorsFromAssemblyContaining<CreateProductValidator>();
+builder.Services.AddTransient<ExceptionMiddleware>();
 
 var app = builder.Build();
 
 //Configure HTTP request pipeline.
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:7000", "https://localhost:7000"));
 app.MapControllers();
 using var scope = app.Services.CreateScope();

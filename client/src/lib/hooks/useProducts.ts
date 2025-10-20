@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import agent from "../apiAgent";
 import { useLocation } from "react-router";
+import type { ProductDTO } from "../types";
 
 export const useProducts = (id?: number) => {
   const queryClient = useQueryClient();
@@ -8,17 +9,17 @@ export const useProducts = (id?: number) => {
   const { data: products, isPending } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const response = await agent.get<Product[]>("/products");
+      const response = await agent.get<ProductDTO[]>("/products");
+  
       return response.data;
     },
-    enabled:  location.pathname === '/products'
   });
 
   const {data: selectedProduct, isLoading} = useQuery({
     queryKey: ['product', id],
     queryFn: async()=> {
       console.log('with id');
-      const response = await agent.get<Product>(`/products/${id}`);
+      const response = await agent.get<ProductDTO>(`/products/${id}`);
       console.log(response.data);
       return response.data;
     },
@@ -26,9 +27,7 @@ export const useProducts = (id?: number) => {
   });
 
   const updateProduct = useMutation({
-    mutationFn: async (product: Product) => {
-      product.categoryId = 1;
-      product.supplierId = 1;
+    mutationFn: async (product: ProductDTO) => {
       await agent.put("/products", product);
     },
     onSuccess: async () => {
@@ -39,9 +38,7 @@ export const useProducts = (id?: number) => {
   });
 
   const createProduct = useMutation({
-    mutationFn: async (product: Product) => {
-      product.categoryId = 1;
-      product.supplierId = 1;
+    mutationFn: async (product: ProductDTO) => {
       const response = await agent.post("/products", product);
       return response.data;
     },

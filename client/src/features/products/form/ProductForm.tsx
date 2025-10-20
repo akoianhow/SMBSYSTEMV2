@@ -1,11 +1,16 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Paper, TextField, Typography, MenuItem } from "@mui/material";
 import type { FormEvent } from "react";
 import { useProducts } from "../../../lib/hooks/useProducts";
 import { Link, useNavigate, useParams } from "react-router";
+import { useCategories } from "../../../lib/hooks/useCategories";
+import { useSuppliers } from "../../../lib/hooks/useSuppliers";
 
 export default function ProductForm() {
+  const {categories, isPending} = useCategories();
+  const {suppliers} = useSuppliers();
   const {id} = useParams();
   const {selectedProduct , updateProduct, createProduct, isLoading } = useProducts(Number(id));
+  
   const navigate = useNavigate();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,7 +35,7 @@ export default function ProductForm() {
   };
 
   if(isLoading) return <Typography>Loading...</Typography>
-
+  if(!categories && !!isPending) return <Typography>Loading..</Typography>;
   return (
     <Paper sx={{ borderRadius: 3, padding: 3 }}>
       <Typography variant="h5" gutterBottom color="primary">
@@ -50,15 +55,27 @@ export default function ProductForm() {
           defaultValue={selectedProduct?.cost}
         />
         <TextField label="Srp" defaultValue={selectedProduct?.srp} />
+        
         <TextField name="itemsInStock" label="Items in Stock"
           defaultValue={selectedProduct?.itemsInStock}
         />
-        <TextField name="categoryName" label="Category"
-          defaultValue={selectedProduct?.categoryName}
-        />
-        <TextField name="supplierName"label="Supplier"
-          defaultValue={selectedProduct?.supplierName}
-        />
+        <TextField select name="categoryId" label="Category" defaultValue={selectedProduct?.categoryId}
+        >
+          {categories?.map(category => (
+            <MenuItem key={category.id} value={category.id}>
+                {category.name}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField select name="supplierId"label="Supplier" defaultValue={selectedProduct?.supplierId}
+
+        >
+          {suppliers?.map(supplier => (
+            <MenuItem key = {supplier.id} value={supplier.id} >
+              {supplier.name}
+            </MenuItem>
+          ))}
+        </TextField>
         <Box display="flex" justifyContent="end" gap={3}>
           <Button  component={Link} to='/products' color="inherit">Cancel</Button>
           <Button

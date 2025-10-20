@@ -1,3 +1,4 @@
+using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -8,23 +9,23 @@ namespace Application.Products.Queries
 {
     public class GetProductById
     {
-        public class Query : IRequest<ProductDTO>
+        public class Query : IRequest<Result<ProductDTO>>
         {
             public required int Id { get; set; }
         }
 
-        public class Handler(AppDbContext context, IMapper mapper) : IRequestHandler<Query, ProductDTO>
+        public class Handler(AppDbContext context, IMapper mapper) : IRequestHandler<Query, Result<ProductDTO>>
         {
-            public async Task<ProductDTO> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<ProductDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var product = context.Products
+                var product = await context.Products
                 .Where(p => p.Id == request.Id)
                 .ProjectTo<ProductDTO>(mapper.ConfigurationProvider)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
-                if (product == null) throw new Exception("Product not found.");
+                if (product == null) return Result<ProductDTO>.Failure("Product not found.", 404);
 
-                return product;
+                return Result<ProductDTO>.Success(product);
             }
         }
     }

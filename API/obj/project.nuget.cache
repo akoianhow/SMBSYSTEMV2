@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "i/OtqpnnS/s=",
+  "dgSpecHash": "qbeCEbL0Wdw=",
   "success": true,
   "projectFilePath": "/Users/christiandpano/react/SMBSYSTEM/API/API.csproj",
   "expectedPackageFiles": [
     "/Users/christiandpano/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
+    "/Users/christiandpano/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
+    "/Users/christiandpano/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.11.0/fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "/Users/christiandpano/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/christiandpano/.nuget/packages/mediatr/13.0.0/mediatr.13.0.0.nupkg.sha512",
     "/Users/christiandpano/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",

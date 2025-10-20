@@ -1,7 +1,7 @@
+using Application.Core;
 using Application.Products.Commands;
 using Application.Products.Queries;
 using Domain;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -17,7 +17,8 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDTO>> GetProductById(Int32 id)
         {
-            return await Mediator.Send(new GetProductById.Query { Id = id });
+            var result = await Mediator.Send(new GetProductById.Query { Id = id });
+            return HandleResult(result);
         }
 
         [HttpGet("category/{id}")]
@@ -27,15 +28,15 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> CreateProduct(Product product)
+        public async Task<ActionResult<int>> CreateProduct(ProductDTO product)
         {
             return await Mediator.Send(new CreateProduct.Command { Product = product });
         }
         [HttpPut]
-        public async Task<ActionResult> EditProduct(Product product)
+        public async Task<ActionResult> EditProduct(ProductDTO product)
         {
-            await Mediator.Send(new EditProduct.Command { Product = product });
-            return NoContent();
+            return HandleResult(await Mediator.Send(new EditProduct.Command { Product = product }));
+  
         }
 
         [HttpDelete("{id}")]
@@ -43,6 +44,25 @@ namespace API.Controllers
         {
             await Mediator.Send(new DeleteProduct.Command { Id = id });
             return Ok();
+        }
+
+
+        [HttpGet("products")]
+        public async Task<ActionResult> GetFilteredProducts(
+        [FromQuery] int page = 0,
+        [FromQuery] int limit = 0,
+        [FromQuery] string queryString = "")
+        {
+            var products = await Mediator.Send(
+                new GetFilteredProducts.Query
+                {
+                    Page = page,
+                    Limit = limit,
+                    QueryString = queryString
+                }
+            );
+
+            return Ok(products);
         }
     }
 }

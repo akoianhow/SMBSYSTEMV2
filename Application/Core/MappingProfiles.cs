@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Domain;
 using Domain.DTOs;
@@ -13,7 +9,12 @@ namespace Application.Core
         public MappingProfiles()
         {
             CreateMap<Product, Product>();
+            CreateMap<ProductDTO, Product>();
+            CreateMap<Category, Category>();
             CreateMap<Category, CategoryDTO>();
+            CreateMap<CategoryDTO, Category>();
+            CreateMap<Supplier, SupplierDTO>();
+            CreateMap<Supplier, Supplier>();
 
             CreateMap<Product, ProductDTO>()
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))

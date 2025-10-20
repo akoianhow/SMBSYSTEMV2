@@ -8,13 +8,33 @@ type Product = {
   srp: number;
   itemsInStock: number;
   categoryId: number;
-  categoryName: string;
+  category?: Category;
   supplierId: number;
-  supplierName: string;
+  supplier?: Supplier;
 };
 
 
+export type ProductDTO= {
+  id: number;
+  name: string;
+  description: string;
+  isActive: boolean;
+  isConsigned: boolean;
+  cost: number;
+  srp: number;
+  itemsInStock: number;
+  categoryId: number;
+  categoryName: string;
+  supplierId: number;
+  supplierName: string;
+}
+
 type Category = {
+  id: number;
+  name: string
+}
+
+type Supplier = {
   id: number;
   name: string
 }
