@@ -10,3 +10,4 @@
 /Users/christiandpano/react/SMBSYSTEM/Domain/obj/Debug/net9.0/Domain.pdb
 /Users/christiandpano/react/SMBSYSTEM/Domain/obj/Debug/net9.0/ref/Domain.dll
 /Users/christiandpano/react/SMBSYSTEM/Domain/obj/Debug/net9.0/Domain.sourcelink.json
+/Users/christiandpano/react/SMBSYSTEM/Domain/obj/Debug/net9.0/Domain.csproj.AssemblyReference.cache

@@ -1,88 +1,74 @@
 import { AddShoppingCart } from "@mui/icons-material";
 import { Observer } from 'mobx-react-lite';
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Typography,
+import { AppBar, Box, Button, Container,Menu, MenuItem, Toolbar,Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { NavLink } from "react-router";
-import MenuItemLink from "../shared/components/MenuItemLink";
+import { useState, type FormEvent } from "react";
+import { NavLink, useNavigate } from "react-router";
 import { useStore } from "../../lib/hooks/useStore";
 
 export default function NavBar() {
   const {cart} = useStore();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
+  const [anchorElFile, setAnchorElFile] = useState(null);
+  const [anchorElReports, setAnchorElReports] = useState(null);
+  const [anchorElFileMaintenance, setAnchorElFileMaintenance] = useState(null);
+
+  const [selectedForm, setSelectedForm] = useState('');
+
+  const handleOpen = (setter:React.Dispatch<null>) => (event) => setter(event.currentTarget);
+  const handleClose = (setter: React.Dispatch<null>) => () => setter(null);
+
+  const handleSelect = (formName: string) => {
+    switch (formName.toLowerCase()) {
+      case 'products':
+        navigate('/products');
+        break;
+      case 'categories':
+        navigate('/categories');
+        break;     
+      case 'suppliers':
+        navigate('/suppliers');
+        break;
+    }
+    setSelectedForm(formName);
+    setAnchorElFile(null);
+    setAnchorElReports(null);
+    setAnchorElFileMaintenance(null);
+  };
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleCreate = () => {
-    handleClose();
-  };
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar
-        position="static"
-        sx={{
-          backgroundImage:
-            "linear-gradient(135deg, #000000ab, #000000ab, #000000ab, 69%, #530000ff )",
-        }}
-      >
+      <AppBar position="static" sx={{
+          backgroundImage: "linear-gradient(135deg, #000000ab, #000000ab, #000000ab, 69%, #530000ff )",}}>
         <Container maxWidth="xl">
-          <Toolbar
-            sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between",}}>
-            <Box>
-              <MenuItem component={NavLink} to="/" sx={{ display: "flex", gap: 2 }}>
-                <AddShoppingCart fontSize="large" />
-                <Typography  variant="h4" fontWeight="bold">
-                  SMBS
-                </Typography>
-              </MenuItem>
-            </Box>
+          <Toolbar sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between",}}>
+             <Typography variant="h6" sx={{ flexGrow: 1 }}>Menu System</Typography>
 
-            <Box sx={{ display: "flex" }}>
-              <MenuItemLink to="/">
-                Home
-              </MenuItemLink>
-              <MenuItemLink to='/'>
-                SALES
-              </MenuItemLink>
-              <MenuItem sx={{ fontSize: "1.2rem", textTransform: "uppercase", fontWeight: "bold",}}>
-                Purchases
-              </MenuItem>
-              <Button id="basic-button"
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleClick}
-              >
-                INVENTORY
-              </Button>
-              <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}
-                slotProps={{
-                  list: {
-                    "aria-labelledby": "basic-button",
-                  },
-                }}
-              >
-                <MenuItem onClick={handleClose} component={NavLink} to='/products'>Product List</MenuItem>
-                <MenuItem onClick={handleClose} component={NavLink} to="/createProduct">
-                  Create Product
-                </MenuItem>
-                <MenuItem onClick={handleClose}>Reports</MenuItem>
-              </Menu>
+          <Button color="inherit" onClick={handleOpen(setAnchorElFile)}>FILE</Button>
+          <Menu anchorEl={anchorElFile} open={Boolean(anchorElFile)} onClose={handleClose(setAnchorElFile)}>
+            <MenuItem onClick={() => handleSelect('Supplier')}>Supplier</MenuItem>
+            <MenuItem onClick={() => handleSelect('Customer')}>Customer</MenuItem>
+          </Menu>
 
-            </Box>
+          <Button color="inherit" onClick={handleOpen(setAnchorElReports)}>REPORTS</Button>
+          <Menu anchorEl={anchorElReports} open={Boolean(anchorElReports)} onClose={handleClose(setAnchorElReports)}>
+            <MenuItem onClick={() => handleSelect('Sales')}>Sales</MenuItem>
+            <MenuItem onClick={() => handleSelect('Reports')}>Reports</MenuItem>
+          </Menu>
+
+          <Button color="inherit" onClick={handleOpen(setAnchorElFileMaintenance)}>FILE MAINTENANCE</Button>
+          <Menu anchorEl={anchorElFileMaintenance} open={Boolean(anchorElFileMaintenance)} onClose={handleClose(setAnchorElFileMaintenance)}>
+            <MenuItem onClick={() => handleSelect('Products')}>Products</MenuItem>
+            <MenuItem onClick={() => handleSelect('Suppliers')}>Suppliers</MenuItem>
+            <MenuItem onClick={() => handleSelect('Categories')}>Categories</MenuItem>
+          </Menu>
             <Button size="large" variant="contained">
               Login
             </Button>

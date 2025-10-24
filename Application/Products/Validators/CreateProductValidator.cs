@@ -7,12 +7,17 @@ using FluentValidation;
 
 namespace Application.Products.Validators
 {
-    public class CreateProductValidator: AbstractValidator<CreateProduct.Command>
+    public class CreateProductValidator : AbstractValidator<CreateProduct.Command>
     {
         public CreateProductValidator()
         {
-            RuleFor(x => x.Product.Name).NotEmpty().WithMessage("Name is required.");
+            int maxLength = 200;
+            RuleFor(x => x.Product.Name)
+            .NotEmpty().WithMessage("Name is required.")
+            .MaximumLength(maxLength).WithMessage($"Must not exceed {maxLength} characters.");
             RuleFor(x => x.Product.Description).NotEmpty().WithMessage("Description is required.");
         }
     }
 }
+
+

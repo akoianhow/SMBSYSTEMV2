@@ -32,9 +32,11 @@ export type ProductDTO= {
 type Category = {
   id: number;
   name: string
+  description: string
 }
 
 type Supplier = {
   id: number;
   name: string
+  description: string
 }

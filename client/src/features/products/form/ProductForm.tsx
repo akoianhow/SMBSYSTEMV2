@@ -1,38 +1,46 @@
-import { Box, Button, Paper, TextField, Typography, MenuItem } from "@mui/material";
-import type { FormEvent } from "react";
+import { Box, Button, Paper, Typography, MenuItem } from "@mui/material";
+import { useEffect } from "react";
 import { useProducts } from "../../../lib/hooks/useProducts";
 import { Link, useNavigate, useParams } from "react-router";
 import { useCategories } from "../../../lib/hooks/useCategories";
 import { useSuppliers } from "../../../lib/hooks/useSuppliers";
+import { useForm, type FieldValues } from 'react-hook-form';
+import { ProductSchema } from '../../../lib/schemas/productSchema';
+import { zodResolver } from '../../../../node_modules/@hookform/resolvers/zod/src/zod';
+import TextInput from "../../../app/shared/components/TextInput";
+import type { ProductDTO } from "../../../lib/types";
+
 
 export default function ProductForm() {
+
+  const {control, reset, handleSubmit} = useForm<ProductSchema>({
+    mode:'onTouched',
+    resolver: zodResolver(ProductSchema)
+  });
   const {categories, isPending} = useCategories();
   const {suppliers} = useSuppliers();
   const {id} = useParams();
   const {selectedProduct , updateProduct, createProduct, isLoading } = useProducts(Number(id));
   
-  const navigate = useNavigate();
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const navigate = useNavigate()
 
-    const formData = new FormData(event.currentTarget);
-    const data: { [key: any]: FormDataEntryValue } = {};
-    formData.forEach((value, key) => {
-      data[key] = value;
-    });
-
-    if (selectedProduct) {
-      data.id = selectedProduct.id;
-      await updateProduct.mutateAsync(data as unknown as Product);
-      navigate(`/products/${selectedProduct.id}`);
-    } else {
-       createProduct.mutate(data as unknown as Product, {
-        onSuccess:(id) => {
-          navigate(`/products/${id}`);
-        }
-       });
+  const onSubmit = async (data: FieldValues) => {
+    if(selectedProduct) {
+        updateProduct.mutate({...selectedProduct, ...data} as ProductDTO, 
+          {onSuccess: ()=> {navigate(`/products/${selectedProduct.id}`)}}
+        );
+    }
+    else {
+      const newProduct = {...data}
+      console.log(newProduct);
+      createProduct.mutate(newProduct as ProductDTO, {
+        onSuccess: ()=> navigate(`/products`)
+      });
     }
   };
+  useEffect(()=> {
+    if(selectedProduct) reset(selectedProduct)
+  }, [selectedProduct, reset])
 
   if(isLoading) return <Typography>Loading...</Typography>
   if(!categories && !!isPending) return <Typography>Loading..</Typography>;
@@ -41,49 +49,31 @@ export default function ProductForm() {
       <Typography variant="h5" gutterBottom color="primary">
         Create Product
       </Typography>
-      <Box component="form" onSubmit={handleSubmit}
-         display="flex" flexDirection="column" gap={3}>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)} display="flex" flexDirection="column" gap={3}>
 
-        <TextField name="name" label="Name"
-          defaultValue={selectedProduct?.name}
-        />
-        <TextField name="description" label="Description"
-          defaultValue={selectedProduct?.description}
-        />
-        <TextField name="cost" type="number"
-          label="Cost"
-          defaultValue={selectedProduct?.cost}
-        />
-        <TextField label="Srp" defaultValue={selectedProduct?.srp} />
-        
-        <TextField name="itemsInStock" label="Items in Stock"
-          defaultValue={selectedProduct?.itemsInStock}
-        />
-        <TextField select name="categoryId" label="Category" defaultValue={selectedProduct?.categoryId}
-        >
+        <TextInput name='name' label="Name" control={control} value={selectedProduct?.name} />
+        <TextInput name='description' label="Description" control={control} value={selectedProduct?.description}/>
+        <TextInput name='cost' type='number'  control={control} label="Cost" value={selectedProduct?.cost} />
+
+        <TextInput name='srp' type='number'  control={control} label="Srp" value={selectedProduct?.srp} />
+        <TextInput name='itemsInStock' type='number' control={control}  label="Items in Stock" value={selectedProduct?.itemsInStock}/>
+        <TextInput name='categoryId' control={control} select label="Category" defaultValue={selectedProduct?.categoryId ?? 1} >
           {categories?.map(category => (
             <MenuItem key={category.id} value={category.id}>
                 {category.name}
             </MenuItem>
           ))}
-        </TextField>
-        <TextField select name="supplierId"label="Supplier" defaultValue={selectedProduct?.supplierId}
-
-        >
+        </TextInput>
+        <TextInput name='supplierId' control={control} select label="Supplier" defaultValue={selectedProduct?.supplierId ?? 1}>
           {suppliers?.map(supplier => (
             <MenuItem key = {supplier.id} value={supplier.id} >
               {supplier.name}
             </MenuItem>
           ))}
-        </TextField>
+        </TextInput>
         <Box display="flex" justifyContent="end" gap={3}>
           <Button  component={Link} to='/products' color="inherit">Cancel</Button>
-          <Button
-            type="submit"
-            color="success"
-            variant="contained"
-            disabled={updateProduct.isPending}
-          >
+          <Button type="submit" color="success" variant="contained" disabled={updateProduct.isPending}>
             Submit
           </Button>
         </Box>

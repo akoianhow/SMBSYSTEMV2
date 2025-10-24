@@ -1,6 +1,7 @@
 
-import  {useQuery, useQueryClient} from '@tanstack/react-query'
+import  {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import agent from '../apiAgent';
+import type { Category } from '../types';
 
 export const useCategories = ()=> {
     const queryClient = useQueryClient();
@@ -13,8 +14,20 @@ export const useCategories = ()=> {
         },
     })
 
+    const deleteCategory = useMutation({
+        mutationFn: async(id: number) => {
+            await agent.delete(`/categories/${id}`);
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ['categories']
+            });
+        }
+    })
+
     return {
         categories,
-        isPending
+        isPending,
+        deleteCategory
     }
 }

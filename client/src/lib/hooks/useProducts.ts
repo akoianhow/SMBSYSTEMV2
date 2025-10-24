@@ -6,28 +6,31 @@ import type { ProductDTO } from "../types";
 export const useProducts = (id?: number) => {
   const queryClient = useQueryClient();
   const location = useLocation();
+
+
+  //Get ALL Products
   const { data: products, isPending } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
       const response = await agent.get<ProductDTO[]>("/products");
-  
       return response.data;
     },
   });
-
+  // Get product by ID
   const {data: selectedProduct, isLoading} = useQuery({
     queryKey: ['product', id],
     queryFn: async()=> {
-      console.log('with id');
       const response = await agent.get<ProductDTO>(`/products/${id}`);
-      console.log(response.data);
       return response.data;
     },
     enabled: !!id && id > 0
   });
 
+  //Get Product with Pagination
   const updateProduct = useMutation({
     mutationFn: async (product: ProductDTO) => {
+      console.log('usePoduct.Upate');
+      console.log(product);
       await agent.put("/products", product);
     },
     onSuccess: async () => {

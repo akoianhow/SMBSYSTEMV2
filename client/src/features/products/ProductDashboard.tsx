@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
-import ProductList from "./ProductList";
 import { useProducts } from "../../lib/hooks/useProducts";
+import ProductDataTable from "./form/ProductDataTable";
 
 export default function ProductDashboard() {
   const { products, isPending } = useProducts();
@@ -9,10 +9,7 @@ export default function ProductDashboard() {
 
   return (
     <Grid container spacing={3}>
-      <Grid size={7}>
-        <ProductList />
-      </Grid>
-      <Grid size={5}>Something goes here</Grid>
+        <ProductDataTable />
     </Grid>
   );
 }
