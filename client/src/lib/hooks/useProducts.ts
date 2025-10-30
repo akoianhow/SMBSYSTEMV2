@@ -2,10 +2,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import agent from "../apiAgent";
 import { useLocation } from "react-router";
 import type { ProductDTO } from "../types";
+import { useAccount } from "./useAccounts";
 
 export const useProducts = (id?: number) => {
   const queryClient = useQueryClient();
   const location = useLocation();
+  const currentUser = useAccount();
 
 
   //Get ALL Products
@@ -15,6 +17,7 @@ export const useProducts = (id?: number) => {
       const response = await agent.get<ProductDTO[]>("/products");
       return response.data;
     },
+    enabled: !id && location.pathname === '/products' && !!currentUser
   });
   // Get product by ID
   const {data: selectedProduct, isLoading} = useQuery({
@@ -23,14 +26,12 @@ export const useProducts = (id?: number) => {
       const response = await agent.get<ProductDTO>(`/products/${id}`);
       return response.data;
     },
-    enabled: !!id && id > 0
+    enabled: !!id && id > 0 && !!currentUser
   });
 
   //Get Product with Pagination
   const updateProduct = useMutation({
     mutationFn: async (product: ProductDTO) => {
-      console.log('usePoduct.Upate');
-      console.log(product);
       await agent.put("/products", product);
     },
     onSuccess: async () => {

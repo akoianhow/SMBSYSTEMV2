@@ -9,6 +9,8 @@ namespace Domain
     {
         public Int32 Id { get; set; }
         public string Name { get; set; } = "";
+
+        public string Description { get; set; } = "";
         public ICollection<Product> Products { get; set; } = [];
     }
 }

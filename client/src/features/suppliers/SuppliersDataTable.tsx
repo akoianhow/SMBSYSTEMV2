@@ -14,11 +14,12 @@ import { Link, useNavigate } from 'react-router';
 export default function SuppliersDataTable() {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
-    const {suppliers} = useSuppliers();
+    const {suppliers, deleteSupplier, updateSupplier} = useSuppliers();
     const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
 
     const columns: GridColDef[] = [
     {field: 'name', headerName: 'Name', width: 300},
+    {field: 'description', headerName: 'Description', width: 300},
     {field: 'edit', headerName: 'Edit', width: 80, sortable: false, filterable: false,
     renderCell: (params) => (
       <IconButton color="primary" size="small" onClick={() => handleEdit(params.row)}>
@@ -43,8 +44,10 @@ const confirmDelete = (row: Supplier) => {
 const handleDelete = ()=> {
     if(selectedSupplier !== null) {
         //deleteSupplier
-        console.log("delete ");
-        setOpen(false);
+        if(selectedSupplier){
+          deleteSupplier.mutate(selectedSupplier.id);
+          setOpen(false);
+        }
     }
 }
 const handleCancel = () => {

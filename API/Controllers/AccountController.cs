@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.DTOs;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace API.Controllers
 {
+
     public class AccountController(SignInManager<User> signInManager): BaseApiController
     {
 
@@ -35,11 +31,11 @@ namespace API.Controllers
             return ValidationProblem();
         }
 
-        [AllowAnonymous]
         [HttpGet("user-info")]
+        [AllowAnonymous]
         public async Task<ActionResult> GetUserInfo()
         {
-            if (User.Identity?.IsAuthenticated == false) NoContent();
+            if (User.Identity?.IsAuthenticated == false) return NoContent();
 
             var user = await signInManager.UserManager.GetUserAsync(User);
 

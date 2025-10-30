@@ -13,6 +13,12 @@ type Product = {
   supplier?: Supplier;
 };
 
+type User = {
+  id: string,
+  email: string,
+  displayName: string
+  imageUrl?: string
+}
 
 export type ProductDTO= {
   id: number;

@@ -1,5 +1,5 @@
 import { useForm, type FieldValues } from "react-hook-form"
-import { SupplierSchema } from "../../lib/schemas/productSchema"
+import { SupplierSchema } from "../../lib/schemas/supplierSchema"
 import { zodResolver } from "@hookform/resolvers/zod/src/zod.js"
 import { Box, Button, Paper, Typography } from "@mui/material"
 import TextInput from "../../app/shared/components/TextInput"
@@ -10,13 +10,13 @@ import type { Supplier } from "../../lib/types"
 
 export default function SupplierForm() {
   
-    const {id} = useParams();
+  const navigate = useNavigate();
+  const {id} = useParams();
   const {selectedSupplier, isLoading, updateSupplier, createSupplier} = useSuppliers(Number(id));
   const {control, reset, handleSubmit} = useForm<SupplierSchema>({
     mode: 'onTouched',
     resolver: zodResolver(SupplierSchema)
   })
-  const navigate = useNavigate();
 
   const onSubmit = async( data: FieldValues) => {
     if(selectedSupplier) {  
@@ -30,12 +30,8 @@ export default function SupplierForm() {
         onSuccess: ()=> navigate('/suppliers')
     })
   }}
-
   useEffect(()=> {
-      console.log("supplname: " + selectedSupplier?.name);
-
     if(selectedSupplier) {
-      console.log("supplname: " + selectedSupplier?.name);
       reset(selectedSupplier)}
   }, [selectedSupplier, reset])
 

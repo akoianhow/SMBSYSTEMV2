@@ -8,13 +8,18 @@ import ProductCRUD from "../../features/products/ProductCRUD";
 import CategoryDataTable from "../../features/categories/form/CategoryDataTable";
 import SuppliersDataTable from "../../features/suppliers/SuppliersDataTable";
 import SupplierForm from "../../features/suppliers/SupplierForm";
+import LoginForm from "../../features/login/loginForm";
+import CategoryForm from "../../features/categories/form/CategoryForm";
+import RequireAuth from "./RequireAuth";
+import RegisterForm from "../../features/login/RegisterForm";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      { path: "", element: <HomePage /> },
+      {element: <RequireAuth />, children: [
+
       { path: "products", element: <ProductDashboard /> },
       { path: "productsCrud", element: <ProductCRUD /> },
       { path: "products/:id", element: <ProductDetailPage /> },
@@ -22,10 +27,18 @@ export const router = createBrowserRouter([
       { path: "createProduct", element: <ProductForm /> },
 
       { path: "categories", element: <CategoryDataTable/>},
+      { path: "createCategory", element: <CategoryForm/>},
+      { path: "editCategory/:id", element: <CategoryForm  key = "edit" />},
 
       { path: "suppliers", element: <SuppliersDataTable/>},
       { path: "createSupplier", element: <SupplierForm />},
       {path:  "editSupplier/:id", element: <SupplierForm key="edit" />}
+      ]},
+
+      { path: "", element: <HomePage /> },
+      { path: "login", element: <LoginForm /> },
+      { path: "register", element: <RegisterForm />}
+     
 
     ],
   },

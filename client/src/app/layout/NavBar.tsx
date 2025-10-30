@@ -2,14 +2,16 @@ import { AddShoppingCart } from "@mui/icons-material";
 import { Observer } from 'mobx-react-lite';
 import { AppBar, Box, Button, Container,Menu, MenuItem, Toolbar,Typography,
 } from "@mui/material";
-import { useState, type FormEvent } from "react";
-import { NavLink, useNavigate } from "react-router";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 import { useStore } from "../../lib/hooks/useStore";
+import { useAccount } from "../../lib/hooks/useAccounts";
+import MenuItemLink from "../shared/components/MenuItemLink";
+import UserMenu from "../shared/components/UserMenu";
 
 export default function NavBar() {
+  const {currentUser, logoutUser} = useAccount();
   const {cart} = useStore();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const [anchorElFile, setAnchorElFile] = useState(null);
   const [anchorElReports, setAnchorElReports] = useState(null);
@@ -38,18 +40,18 @@ export default function NavBar() {
     setAnchorElFileMaintenance(null);
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
 
-
+  const handleLogout = async ()=> {
+    await logoutUser.mutateAsync();
+  }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{
           backgroundImage: "linear-gradient(135deg, #000000ab, #000000ab, #000000ab, 69%, #530000ff )",}}>
         <Container maxWidth="xl">
           <Toolbar sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between",}}>
-             <Typography variant="h6" sx={{ flexGrow: 1 }}>Menu System</Typography>
+             <Typography 
+                         variant="h6" style={{ flexGrow: 1, textDecoration: "none", color: "inherit" }}>SMBS</Typography>
 
           <Button color="inherit" onClick={handleOpen(setAnchorElFile)}>FILE</Button>
           <Menu anchorEl={anchorElFile} open={Boolean(anchorElFile)} onClose={handleClose(setAnchorElFile)}>
@@ -69,10 +71,29 @@ export default function NavBar() {
             <MenuItem onClick={() => handleSelect('Suppliers')}>Suppliers</MenuItem>
             <MenuItem onClick={() => handleSelect('Categories')}>Categories</MenuItem>
           </Menu>
-            <Button size="large" variant="contained">
-              Login
-            </Button>
-            <Observer>
+
+              <Box display='flex' textAlign='center'>
+
+               {currentUser 
+                  ? ( 
+                    <Box display='flex' flexDirection='row' gap={1}>
+                      <Typography>Welcome {currentUser.displayName}</Typography> 
+                      <UserMenu />
+                    </Box>
+
+                  ) 
+                  : (
+                    <>
+                      <MenuItemLink to='/login'>Login</MenuItemLink>
+                      <MenuItemLink to='/register'>Register</MenuItemLink>
+                    </>
+
+                    ) }
+              </Box>
+
+
+  
+              <Observer>
               {()=> (
                 <>
                 <Box display='flex'>
@@ -82,6 +103,7 @@ export default function NavBar() {
                 </>
               )}
             </Observer>
+           
           </Toolbar>
         </Container>
         <Box></Box>

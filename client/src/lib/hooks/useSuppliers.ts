@@ -11,7 +11,7 @@ export const useSuppliers = (id?: number) =>
         queryFn: async() => {
             const response = await agent.get<Supplier[]>('/suppliers');
             return response.data;
-        }
+        },
     })
     //Get Supplier by ID
     const{ data:selectedSupplier, isLoading} = useQuery({
@@ -47,6 +47,12 @@ export const useSuppliers = (id?: number) =>
         }
     })
 
+    const deleteSupplier = useMutation({
+        mutationFn: async(id: number) => {
+            await agent.delete(`/suppliersusea/${id}`);
+        }
+    })
+
 
 
     return {
@@ -55,7 +61,8 @@ export const useSuppliers = (id?: number) =>
         selectedSupplier,
         isLoading,
         updateSupplier,
-        createSupplier
+        createSupplier,
+        deleteSupplier
 
     }
 }

@@ -13,7 +13,6 @@ namespace Domain
         public string Description { get; set; } = "";
         public Int32 CategoryId { get; set; }
         public Category? Category { get; set; } = null;
-
         public Int32 SupplierId { get; set; }
         public Supplier? Supplier { get; set; }
         public bool IsActive { get; set; } = true;
